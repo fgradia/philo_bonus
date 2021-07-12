@@ -14,28 +14,17 @@ int	ft_next_phil(int actual)
 	return (0);
 }
 
-void	ft_init_fork(int *fork)
-{
-	int	x;
-
-	x = 0;
-	while (x < g_data.phils_n)
-		fork[x++] = 0;
-}
-
 void	ft_init_data(char **av, t_data *g_data)
 {
 	g_data->phils_n = ft_atoi(av[1]);
-	g_data->die_t = ft_atoi(av[2]) * 1000;
-	g_data->eat_t = ft_atoi(av[3]) * 1000;
-	g_data->sleep_t = ft_atoi(av[4]) * 1000;
+	g_data->die_t = ft_atoi(av[2]);
+	g_data->eat_t = ft_atoi(av[3]);
+	g_data->sleep_t = ft_atoi(av[4]);
 	g_data->eat_n = -1;
 	g_data->x = 0;
-	g_data->fork = (int *)malloc(sizeof(int) * g_data->phils_n);
-	ft_init_fork(g_data->fork);
 	g_data->phil = (pthread_t *)malloc(sizeof(pthread_t) * g_data->phils_n);
 	g_data->mut = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
-	if (!g_data->phil || !g_data->mut || !g_data->fork)
+	if (!g_data->phil || !g_data->mut)
 		ft_exit("malloc_fault", g_data);
 }
 

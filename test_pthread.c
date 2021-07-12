@@ -25,9 +25,10 @@ pthread_mutex_unlock
 
 void	*ft_routine2(void *arg)
 {
+	int *azz = (int *)(arg);
 	printf("2.starting routine\n");
-	printf("arg:-%s-\n", (char *)arg);
-	arg = "zzzz\0";
+	printf("arg:-%d-\n", *azz);
+	*azz = 666;
 	return (arg);
 
 }
@@ -53,12 +54,16 @@ int main()
 		printf("\tp_c:%s\n", strerror(errno));
 	if (pthread_join(asd1, (void **)&str) != 0)  // simile a waitpid
 		printf("\tp_j:%s\n",  strerror(errno));
+	printf("end:-%s-\n", str);
+
+	int	fff = 999;
+	int	*pp = &fff;
 	// if (pthread_detach(asd2) != 0)
 	// 	printf("\tp_d: %s\n", strerror(errno));
-	// if (pthread_create(&asd2, NULL, ft_routine2, (void *)str) != 0)
-	// 	printf("\tp_c:%s\n", strerror(errno));
-	// if (pthread_join(asd2, (void **)&str) != 0)
-	// 	printf("\tp_j:%s\n",  strerror(errno));
-	printf("end:-%s-\n", str);
+	if (pthread_create(&asd2, NULL, ft_routine2, (void *)pp) != 0)
+		printf("\tp_c:%s\n", strerror(errno));
+	if (pthread_join(asd2, (void **)&pp) != 0)
+		printf("\tp_j:%s\n",  strerror(errno));
+	printf("2.end: %d\n", fff);
 	read(0, str, 1);
 }

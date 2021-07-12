@@ -38,7 +38,6 @@ typedef struct s_data
 	int				sleep_t;
 	int				eat_n;
 	int				x;
-	int				*fork;
 	pthread_t		*phil;
 	pthread_mutex_t	*mut;
 
