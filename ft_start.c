@@ -15,15 +15,18 @@ void	ft_free_matr(char **str)
 
 void	ft_eat_2(int *actual, int *first)
 {
-	if (g_data.fork[*actual] == 1)
-		return ;
 	pthread_mutex_lock(g_data.mut);
+	if (g_data.fork[*actual] == 1)
+	{
+		pthread_mutex_unlock(g_data.mut);
+		return ;
+	}
 	g_data.fork[ft_next_phil(*actual)] = 1;
 	g_data.fork[ft_prec_phil(*actual)] = 1;
 	g_data.fork[*actual] = 1;
 	// *first = 2;
 	pthread_mutex_unlock(g_data.mut);
-	printf("\teating phil: %d/%d\tblocking %d&%d\n", *actual +1 , g_data.x +1, ft_next_phil(*actual) +1, ft_prec_phil(*actual) + 1);
+	printf("\teating phil: %d/%d\tblocking %d_%d\n", *actual +1 , g_data.x +1, ft_next_phil(*actual) +1, ft_prec_phil(*actual) + 1);
 	usleep(g_data.eat_t);
 	// pthread_mutex_lock(g_data.mut);
 	g_data.fork[ft_next_phil(*actual)] = 0;
@@ -45,7 +48,7 @@ void	ft_eat(int *actual, int *first)
 	g_data.fork[ft_next_phil(g_data.x)] = 1;
 	g_data.fork[ft_prec_phil(g_data.x)] = 1;
 	g_data.fork[g_data.x] = 1;
-	printf("\teating phil: %d/%d\tblocking %d&%d\n", *actual +1, g_data.x +1, ft_next_phil(g_data.x) +1, ft_prec_phil(g_data.x) + 1);
+	printf("\teating phil: %d/%d\tblocking %d_%d\n", *actual +1, g_data.x +1, ft_next_phil(g_data.x) +1, ft_prec_phil(g_data.x) + 1);
 	// pthread_mutex_lock(g_data.mut);
 	*first = 1;
 	pthread_mutex_unlock(g_data.mut);
@@ -73,7 +76,7 @@ void	*ft_routine(void *arg)
 	wait = 0;
 	// first = 0;
 	actual = (int *)arg;
-	printf("seated phil: %d\n", *actual + 1);
+	printf("seated phil: %d/%d\n", (*(actual)) + 1, g_data.x + 1);
 	while (g_data.fork[g_data.x] < 0)
 		wait++;
 	while (g_data.x != 666)
@@ -88,7 +91,7 @@ void	*ft_routine(void *arg)
 			// pthread_mutex_unlock(g_data.mut);
 			// printf("\teating phil: %d - %d\n", *actual, g_data.x);
 			// first = 1;
-			// usleep(g_data.eat_t);
+			// usleep(g_data.eat_t); + 1
 			// // pthread_mutex_lock(g_data.mut);
 			// g_data.fork[ft_next_phil(g_data.x)] = 0;
 			// g_data.fork[ft_prec_phil(g_data.x)] = 0;
@@ -124,13 +127,13 @@ void	*ft_routine(void *arg)
 	return (NULL);
 }
 
-void	ft_create_philo(t_data *g_data)
+void	ft_create_philo(int *arg, t_data *g_data)
 {
 	int	x;
 	// int *arg;//[g_data->phils_n];
-	int *arg;
+	// int *arg;
 
-	arg = (int *)malloc(sizeof(int) * g_data->phils_n);
+	// arg = (int *)malloc(sizeof(int) * g_data->phils_n);
 	x = 0;
 
 
@@ -142,7 +145,7 @@ void	ft_create_philo(t_data *g_data)
 			ft_exit("Error: a philo didn't seat", g_data);
 		x++;
 	}
-	free(arg);
+	// free(arg);
 	
 }
 
@@ -163,21 +166,22 @@ void	ft_start(t_data *g_data)
 {
 	// char	**str;
 	// int		*x;
-	// int *args;
+	int *args;
 
 	// args = NULL;
-	// arg = (int *)malloc(sizeof(int) * g_data->phils_n);
+	args = (int *)malloc(sizeof(int) * g_data->phils_n);
 	pthread_mutex_init(g_data->mut, NULL);
 	// str = (char **)malloc(sizeof(char *) * (g_data->phils_n + 1));
 	// str[g_data->phils_n] = NULL;
-	pthread_mutex_lock(g_data->mut);
+	// pthread_mutex_lock(g_data->mut);
 
 	g_data->fork[g_data->x] = -1;
-	ft_create_philo(g_data);
+	ft_create_philo(args, g_data);
 	g_data->fork[g_data->x] = 0;
-	pthread_mutex_unlock(g_data->mut);
+	// pthread_mutex_unlock(g_data->mut);
 
 	ft_join_philo(g_data);
+	free(args);
 	// ft_free_matr(str);
 	pthread_mutex_destroy(g_data->mut);
 	// x = 0;
