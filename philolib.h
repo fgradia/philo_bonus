@@ -26,9 +26,13 @@
 //	time_to_sleep 
 //	number_of_times_each_philosopher_must_eat]
 
-// typedef struct s_table
-// {
-// }	t_table;
+typedef struct s_table
+{
+	pthread_t		*phil;
+	struct s_table		*prev;
+	struct s_table		*next;
+	// struct s_table	
+}	t_table;
 
 typedef struct s_data
 {
@@ -39,6 +43,7 @@ typedef struct s_data
 	int				eat_n;
 	int				x;
 	int				*fork;
+	// t_table			**seat;
 	pthread_t		*phil;
 	pthread_mutex_t	*mut;
 

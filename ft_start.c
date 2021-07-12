@@ -13,7 +13,7 @@ void	ft_free_matr(char **str)
 	free(str);
 }
 
-void	ft_eat_2(int *actual, int *first)
+void	ft_eat_2(int *actual)
 {
 	pthread_mutex_lock(g_data.mut);
 	if (g_data.fork[*actual] == 1)
@@ -26,7 +26,7 @@ void	ft_eat_2(int *actual, int *first)
 	g_data.fork[*actual] = 1;
 	// *first = 2;
 	pthread_mutex_unlock(g_data.mut);
-	printf("\teating phil: %d/%d\tblocking %d_%d\n", *actual +1 , g_data.x +1, ft_next_phil(*actual) +1, ft_prec_phil(*actual) + 1);
+	printf("\t2.eating phil: %d/%d\tblocking %d_%d\n", *actual +1 , g_data.x +1, ft_next_phil(*actual) +1, ft_prec_phil(*actual) + 1);
 	usleep(g_data.eat_t);
 	// pthread_mutex_lock(g_data.mut);
 	g_data.fork[ft_next_phil(*actual)] = 0;
@@ -42,7 +42,7 @@ void	ft_eat_2(int *actual, int *first)
 }
 	int first;
 
-void	ft_eat(int *actual, int *first)
+void	ft_eat(int *actual)
 {
 	pthread_mutex_lock(g_data.mut);
 	g_data.fork[ft_next_phil(g_data.x)] = 1;
@@ -50,7 +50,7 @@ void	ft_eat(int *actual, int *first)
 	g_data.fork[g_data.x] = 1;
 	printf("\teating phil: %d/%d\tblocking %d_%d\n", *actual +1, g_data.x +1, ft_next_phil(g_data.x) +1, ft_prec_phil(g_data.x) + 1);
 	// pthread_mutex_lock(g_data.mut);
-	*first = 1;
+	// *first = 1;
 	pthread_mutex_unlock(g_data.mut);
 	// pthread_mutex_unlock(g_data.mut);
 	usleep(g_data.eat_t);
@@ -59,11 +59,12 @@ void	ft_eat(int *actual, int *first)
 	g_data.fork[ft_prec_phil(g_data.x)] = 0;
 	printf("\t\tsleeping phil: %d\n", *actual +1);
 	g_data.x = ft_next_phil(g_data.x);
+	// g_data.fork[g_data.x] = 0;
 	pthread_mutex_unlock(g_data.mut);
 	usleep(g_data.sleep_t);
 	// pthread_mutex_lock(g_data.mut);
 	printf("\t\t\tthinking phil: %d\n", *actual +1);
-	g_data.fork[g_data.x] = 0;
+	// g_data.fork[g_data.x] = 0;
 	// pthread_mutex_unlock(g_data.mut);
 
 }
@@ -102,26 +103,29 @@ void	*ft_routine(void *arg)
 			// // pthread_mutex_lock(g_data.mut);
 			// g_data.fork[g_data.x] = 0;
 			// // pthread_mutex_unlock(g_data.mut);
-			ft_eat(actual, &first);
+			ft_eat(actual);
 		}
 		else
 		{
 			// printf("\t\t\tthinking phil: %d\n", *actual +1);
 			// else
 			while (g_data.fork[g_data.x] != 1)
-					wait++;
-			while (*actual != g_data.x && /*first != 1 && */g_data.fork[*actual] != 0)
 				wait++;
+			// g_data.fork[g_data.x] = 0;
+			if (*actual == ft_next_phil( g_data.x) || *actual == ft_prec_phil( g_data.x))
+			{
+				while (*actual != g_data.x && /*first != 1 && */g_data.fork[*actual] != 0)
+					wait++;
+			}
 			if (g_data.fork[*actual] == 0)
 			{
-				ft_eat_2(actual, &first);
+				ft_eat_2(actual);
 				// while (first != 2)
 					// wait++;
 			}
 			// usleep(g_data.sleep_t);
 		}
-		first = 0;
-		printf("\n\n");
+		// printf("\n\n");
 	}
 	// free(actual);
 	return (NULL);
