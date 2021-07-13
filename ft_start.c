@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 19:14:24 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/13 20:11:13 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ void	ft_eat_2(int *actual)
 		g_data.fork_2[ft_prec_phil(*actual)] = 2;
 	g_data.fork[ft_prec_phil(*actual)] = 2;
 	g_data.fork[*actual] = 1;
-	if (g_data.die[*actual] != 0)
+	// if (g_data.die[*actual] != 0)
 		g_data.die[*actual]++;
 	pthread_mutex_unlock(g_data.mut);
 	usleep(g_data.eat_t);
 	if (g_data.x == 666)
 		return ;
 	pthread_mutex_lock(g_data.mut);
+	g_data.die[*actual]++;
 	gettimeofday(&ms, NULL);
 	printf("%ld,%d\t sleeping phil: %d\tfreeing %d_%d\n", ms.tv_sec, ms.tv_usec, *actual +1, ft_next_phil(*actual) +1, ft_prec_phil(*actual) + 1);
 	if (g_data.fork_2[ft_next_phil(*actual)] == 0)
@@ -53,7 +54,7 @@ void	ft_eat_2(int *actual)
 	if (g_data.x == 666)
 		return ;
 	pthread_mutex_lock(g_data.mut);
-	g_data.die[*actual]++;
+	// g_data.die[*actual]++;
 	gettimeofday(&ms, NULL);
 	printf("%ld,%d\t  thinking phil: %d\n", ms.tv_sec, ms.tv_usec, *actual +1);
 	if (g_data.fork[*actual] != 2 && g_data.fork_2[*actual] != 2)
@@ -68,21 +69,23 @@ void	*ft_dying(void *arg)
 	int				x;
 	struct timeval	ms;
 
-
+	x = 0;
 	actual = (int *)arg;
-	while (g_data.fork[g_data.x] < 0)
-		continue ;
+	// while (g_data.fork[g_data.x] <= 0)
+	while (g_data.die[g_data.x] < 1)
+		x++;//continue ;
 	while (g_data.x != 666)
 	{
-		if (g_data.die[*actual] % 2)
+		if (g_data.die[*actual] % 2 && g_data.die[*actual] != -1)
 		{
 			x = g_data.die[*actual];
-			usleep(g_data.die_t - g_data.sleep_t);
-			if (g_data.die[*actual] == x)
+			usleep(g_data.die_t);// - g_data.sleep_t);
+			if (g_data.die[*actual] == x && g_data.x != 666)
 			{
+				g_data.x = 666;
 				gettimeofday(&ms, NULL);
 				printf("%ld,%d +++ PHILO %d DIED +++\n\n", ms.tv_sec, ms.tv_usec, *actual + 1);
-				g_data.x = 666;
+				ft_exit("", &g_data);
 				return (NULL);
 			}	
 		}
@@ -102,6 +105,9 @@ void	*ft_routine(void *arg)
 		wait++;
 	if (*actual == g_data.x)
 		ft_eat_2(actual);
+	else
+		while (g_data.fork[g_data.x] != 1)
+			wait++;
 	while (g_data.x != 666)
 	{
 		wait = 0;
@@ -126,6 +132,8 @@ void	ft_create_philo(int *arg, t_data *g_data)
 			ft_exit("Error: a philo didn't seat", g_data);
 		if (pthread_create(&g_data->dying_phil[x], NULL, ft_dying, (void *)&arg[x]) != 0)
 			ft_exit("Error: a philo didn't seat", g_data);
+		if (pthread_detach(g_data->dying_phil[x]))
+			printf("\tp_d:error\n");
 		x++;
 	}
 }
@@ -139,8 +147,8 @@ void	ft_join_philo(t_data *g_data)
 	{
 	 	if (pthread_join(g_data->phil[x], NULL) != 0)
 			printf("\tp_j:error\n");
-		if (pthread_join(g_data->dying_phil[x], NULL) != 0)
-			printf("\tp_j:error\n");
+		// if (pthread_join(g_data->dying_phil[x], NULL) != 0)
+		// 	printf("\tp_j:error\n");
 		x++;
 	}
 }

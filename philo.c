@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 19:14:20 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/13 20:08:38 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	ft_next_phil(int actual)
 	return (0);
 }
 
-void	ft_init_array(int *array)
+void	ft_init_array(int *array, int val)
 {
 	int	x;
 
 	x = 0;
 	while (x < g_data.phils_n)
-		array[x++] = 0;
+		array[x++] = val;
 }
 
 void	ft_init_data(char **av, t_data *g_data)
@@ -44,11 +44,11 @@ void	ft_init_data(char **av, t_data *g_data)
 	g_data->eat_n = -1;
 	g_data->x = 0;
 	g_data->fork = (int *)malloc(sizeof(int) * g_data->phils_n);
-	ft_init_array(g_data->fork);
+	ft_init_array(g_data->fork, 0);
 	g_data->fork_2 = (int *)malloc(sizeof(int) * g_data->phils_n);
-	ft_init_array(g_data->fork_2);
+	ft_init_array(g_data->fork_2, 0);
 	g_data->die = (int *)malloc(sizeof(int) * g_data->phils_n);
-	ft_init_array(g_data->die);
+	ft_init_array(g_data->die, -1);
 	g_data->phil = (pthread_t *)malloc(sizeof(pthread_t) * (g_data->phils_n));
 	g_data->dying_phil = (pthread_t *)malloc(sizeof(pthread_t) * (g_data->phils_n));
 	g_data->mut = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);

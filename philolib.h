@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 19:14:13 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/13 19:54:56 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@
 //	time_to_sleep 
 //	number_of_times_each_philosopher_must_eat]
 
-typedef struct s_table
-{
-	pthread_t		*actual;
-	char			status;
-	struct s_table	*prev;
-	struct s_table	*next;
-	// struct s_table	
-}	t_table;
-
 typedef struct s_data
 {
 	int				phils_n;
@@ -57,7 +48,7 @@ typedef struct s_data
 	int				x;
 	int				*fork_2;
 	int				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
-	int				*die;			//	pari == ha mangiato ; dispari == inattivo 
+	int				*die;			//	pari == eating ; dispari == inattivo 
 	pthread_t		*phil;
 	pthread_t		*dying_phil;
 	pthread_mutex_t	*mut;
@@ -69,7 +60,7 @@ t_data	g_data;
 /*		philo.c		****	MAIN	****	*/
 int		ft_prec_phil(int actual);
 int		ft_next_phil(int actual);
-void	ft_init_array(int *array);
+void	ft_init_array(int *array, int val);
 void	ft_init_data(char **av, t_data *g_data);
 
 /*		ft_exit.c	*/

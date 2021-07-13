@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:50 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 19:14:51 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/13 19:16:23 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ char	*ft_itoa(int num)
 		new[--x] = num % 10 + 48;
 		num /= 10;
 	}
-	return (new);	
+	return (new);
 }
