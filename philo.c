@@ -14,13 +14,13 @@ int	ft_next_phil(int actual)
 	return (0);
 }
 
-void	ft_init_fork(int *fork)
+void	ft_init_array(int *array)
 {
 	int	x;
 
 	x = 0;
 	while (x < g_data.phils_n)
-		fork[x++] = 0;
+		array[x++] = 0;
 }
 
 void	ft_init_data(char **av, t_data *g_data)
@@ -32,8 +32,13 @@ void	ft_init_data(char **av, t_data *g_data)
 	g_data->eat_n = -1;
 	g_data->x = 0;
 	g_data->fork = (int *)malloc(sizeof(int) * g_data->phils_n);
-	ft_init_fork(g_data->fork);
-	g_data->phil = (pthread_t *)malloc(sizeof(pthread_t) * g_data->phils_n);
+	ft_init_array(g_data->fork);
+	g_data->fork_2 = (int *)malloc(sizeof(int) * g_data->phils_n);
+	ft_init_array(g_data->fork_2);
+	g_data->die = (int *)malloc(sizeof(int) * g_data->phils_n);
+	ft_init_array(g_data->die);
+	g_data->phil = (pthread_t *)malloc(sizeof(pthread_t) * (g_data->phils_n));
+	g_data->dying_phil = (pthread_t *)malloc(sizeof(pthread_t) * (g_data->phils_n));
 	g_data->mut = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
 	if (!g_data->phil || !g_data->mut || !g_data->fork)
 		ft_exit("malloc_fault", g_data);

@@ -28,9 +28,10 @@
 
 typedef struct s_table
 {
-	pthread_t		*phil;
-	struct s_table		*prev;
-	struct s_table		*next;
+	pthread_t		*actual;
+	char			status;
+	struct s_table	*prev;
+	struct s_table	*next;
 	// struct s_table	
 }	t_table;
 
@@ -42,9 +43,11 @@ typedef struct s_data
 	int				sleep_t;
 	int				eat_n;
 	int				x;
-	int				*fork;
-	// t_table			**seat;
+	int				*fork_2;
+	int				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
+	int				*die;			//	pari == ha mangiato ; dispari == inattivo 
 	pthread_t		*phil;
+	pthread_t		*dying_phil;
 	pthread_mutex_t	*mut;
 
 }	t_data;
@@ -54,6 +57,7 @@ t_data	g_data;
 /*		philo.c		****	MAIN	****	*/
 int		ft_prec_phil(int actual);
 int		ft_next_phil(int actual);
+void	ft_init_array(int *array);
 void	ft_init_data(char **av, t_data *g_data);
 
 /*		ft_exit.c	*/
