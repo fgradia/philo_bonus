@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/14 16:47:08 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 17:03:41 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	*ft_dying(void *arg)
 				ft_write(1, " died +++\n");
 				// gettimeofday(&ms, NULL);
 				// printf("%ld,%d +++ PHILO %d DIED +++\n\n", ms.tv_sec, ms.tv_usec, *actual + 1);
-				ft_exit("", &g_data);
+				// ft_exit("", &g_data);
 				return (NULL);
 			}	
 		}
