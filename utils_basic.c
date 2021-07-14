@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:50 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 19:16:23 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 15:15:43 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_strlen(char *str)
 void	ft_write(int fd, char *str)
 {
 	write(fd, str, ft_strlen(str));
-	write(fd, "\n", 1);
+	// write(fd, "\n", 1);
 }
 
 int	ft_atoi(char *str)
@@ -68,4 +68,14 @@ char	*ft_itoa(int num)
 		num /= 10;
 	}
 	return (new);
+}
+
+void	ft_write_num(int num)
+{
+	char	q;
+
+	if (num / 10 != 0)
+		ft_write_num(num / 10);
+	q = (num % 10) + 48;
+	write(1, &q, 1);
 }

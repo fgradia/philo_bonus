@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+# include <sys/time.h>
+
 /*
 
 memset, printf, malloc, free, write,
@@ -42,28 +44,42 @@ void	*ft_routine(void *arg)
 
 }
 
-
 int main()
 {
-	pthread_t 		asd1;
-	pthread_t 		asd2;
+	struct timeval	ms;
+	gettimeofday(&ms, NULL);
+	printf("%d\n", ms.tv_usec);
+	gettimeofday(&ms, NULL);
+	printf("%d\n", ms.tv_usec);
+	gettimeofday(&ms, NULL);
+	printf("%d\n", ms.tv_usec);
+	gettimeofday(&ms, NULL);
+	printf("%d\n", ms.tv_usec);
 
-	char *str;
-	str = "ciao\0";
-	if (pthread_create(&asd1, NULL, ft_routine, (void *)str) != 0)
-		printf("\tp_c:%s\n", strerror(errno));
-	if (pthread_join(asd1, (void **)&str) != 0)  // simile a waitpid
-		printf("\tp_j:%s\n",  strerror(errno));
-	printf("end:-%s-\n", str);
-
-	int	fff = 999;
-	int	*pp = &fff;
-	// if (pthread_detach(asd2) != 0)
-	// 	printf("\tp_d: %s\n", strerror(errno));
-	if (pthread_create(&asd2, NULL, ft_routine2, (void *)pp) != 0)
-		printf("\tp_c:%s\n", strerror(errno));
-	if (pthread_join(asd2, (void **)&pp) != 0)
-		printf("\tp_j:%s\n",  strerror(errno));
-	printf("2.end: %d\n", fff);
-	read(0, str, 1);
 }
+
+
+// int main()
+// {
+// 	pthread_t 		asd1;
+// 	pthread_t 		asd2;
+
+// 	char *str;
+// 	str = "ciao\0";
+// 	if (pthread_create(&asd1, NULL, ft_routine, (void *)str) != 0)
+// 		printf("\tp_c:%s\n", strerror(errno));
+// 	if (pthread_join(asd1, (void **)&str) != 0)  // simile a waitpid
+// 		printf("\tp_j:%s\n",  strerror(errno));
+// 	printf("end:-%s-\n", str);
+
+// 	int	fff = 999;
+// 	int	*pp = &fff;
+// 	// if (pthread_detach(asd2) != 0)
+// 	// 	printf("\tp_d: %s\n", strerror(errno));
+// 	if (pthread_create(&asd2, NULL, ft_routine2, (void *)pp) != 0)
+// 		printf("\tp_c:%s\n", strerror(errno));
+// 	if (pthread_join(asd2, (void **)&pp) != 0)
+// 		printf("\tp_j:%s\n",  strerror(errno));
+// 	printf("2.end: %d\n", fff);
+// 	read(0, str, 1);
+// }

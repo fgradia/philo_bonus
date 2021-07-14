@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 19:54:56 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 15:14:10 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_data
 	pthread_t		*phil;
 	pthread_t		*dying_phil;
 	pthread_mutex_t	*mut;
-
+	struct timeval	ms_start;
 }	t_data;
 
 t_data	g_data;
@@ -75,5 +75,6 @@ int		ft_strlen(char *str);
 void	ft_write(int fd, char *str);
 int		ft_atoi(char *str);
 char	*ft_itoa(int num);
+void	ft_write_num(int num);
 
 #endif

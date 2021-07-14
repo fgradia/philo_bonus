@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/13 20:08:38 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 15:42:58 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,19 @@ void	ft_init_data(char **av, t_data *g_data)
 	g_data->dying_phil = (pthread_t *)malloc(sizeof(pthread_t) * (g_data->phils_n));
 	g_data->mut = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
 	if (!g_data->phil || !g_data->mut || !g_data->fork)
-		ft_exit("malloc_fault", g_data);
+		ft_exit("malloc_fault\n", g_data);
+	// gettimeofday(&g_data->ms_start, NULL);
 }
 
 int	main(int ac, char **av)
 {
+	gettimeofday(&g_data.ms_start, NULL);
+	ft_write_num(g_data.ms_start.tv_sec);
+	ft_write(1, ",");
+	ft_write_num(g_data.ms_start.tv_usec);
+	ft_write(1, "\n");
+
+
 	if (ac == 5 || ac == 6)
 	{
 		ft_init_data(av, &g_data);
