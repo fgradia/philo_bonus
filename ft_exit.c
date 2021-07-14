@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/14 17:07:56 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 17:10:48 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ void	ft_exit(char *str, t_data *g_data)
 		free(g_data->fork);
 	if (g_data->fork_2)
 		free(g_data->fork_2);
-	if (g_data->dying_phil)
-		free(g_data->dying_phil);
+	if (g_data->die)
+		free(g_data->die);
 	if (g_data->phil)
 		free(g_data->phil);
+	if (g_data->dying_phil)
+		free(g_data->dying_phil);
 	if (g_data->mut)
 		free(g_data->mut);
 	// printf("check leaks\n");
