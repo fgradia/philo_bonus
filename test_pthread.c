@@ -48,9 +48,9 @@ int main()
 {
 	struct timeval	ms;
 	gettimeofday(&ms, NULL);
-	printf("%d\n", ms.tv_usec);
+	printf("usec: %d\n", ms.tv_usec);
 	gettimeofday(&ms, NULL);
-	printf("%d\n", ms.tv_usec);
+	printf("usec + 100000 :%d\n", 1000000 + ms.tv_usec);
 	gettimeofday(&ms, NULL);
 	printf("%d\n", ms.tv_usec);
 	gettimeofday(&ms, NULL);

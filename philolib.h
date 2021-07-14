@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/14 15:14:10 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 18:45:36 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_data
 	int				die_t;
 	int				eat_t;
 	int				sleep_t;
-	int				eat_n;
+	int				*eat_n;
 	int				x;
 	int				*fork_2;
 	int				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
@@ -53,6 +53,7 @@ typedef struct s_data
 	pthread_t		*dying_phil;
 	pthread_mutex_t	*mut;
 	struct timeval	ms_start;
+	int				start;
 }	t_data;
 
 t_data	g_data;
@@ -67,6 +68,7 @@ void	ft_init_data(char **av, t_data *g_data);
 void	ft_exit(char *str, t_data *g_data);
 
 /*		ft_start.c	*/
+void	ft_timestamp(/*struct timeval	ms,*/ int *actual);
 void	ft_start(t_data *g_data);
 
 /*	utils_basic.c	*/
