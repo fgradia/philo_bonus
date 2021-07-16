@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/16 19:19:33 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/14 18:45:36 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,54 +40,36 @@
 
 typedef struct s_data
 {
-	int		phils_n;
-	int		die_t;
-	int		eat_t;
-	int		sleep_t;
-	int		eat_n;
-	int		start;
-	// t_philo	**phils;
-
-	// int				x;
-	// int				*fork;
-	// int				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
-	// int				*die;			//	pari == eating ; dispari == inattivo 
-	// pthread_t		*phil;
-	// pthread_t		*dying_phil;
-	pthread_mutex_t	mut_die;
-	// pthread_mutex_t	*mut_fork;
-	
+	int				phils_n;
+	int				die_t;
+	int				eat_t;
+	int				sleep_t;
+	int				*eat_n;
+	int				x;
+	int				*fork_2;
+	int				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
+	int				*die;			//	pari == eating ; dispari == inattivo 
+	pthread_t		*phil;
+	pthread_t		*dying_phil;
+	pthread_mutex_t	*mut;
+	struct timeval	ms_start;
+	int				start;
 }	t_data;
 
-typedef struct s_philo
-{
-	pthread_t		*phil;
-	int				name;
-	int				eat_n;
-	int				die;
-	int				*f_l_stat;
-	pthread_mutex_t	*fork_l;
-	int				*f_r_stat;
-	pthread_mutex_t	*fork_r;
-	t_data			*data;
-}	t_philo;
-
-
-// t_data	data;
+t_data	g_data;
 
 /*		philo.c		****	MAIN	****	*/
-int		ft_prec_phil(int actual, int phils_n);
-int		ft_next_phil(int actual, int phils_n);
-void	ft_init_array(int *array, int val, int phils_n);
-// void	ft_init_array(int *array, int val);
-void	ft_init_data(char **av, t_data *data);
+int		ft_prec_phil(int actual);
+int		ft_next_phil(int actual);
+void	ft_init_array(int *array, int val);
+void	ft_init_data(char **av, t_data *g_data);
 
 /*		ft_exit.c	*/
-void	ft_exit(char *str, t_data *data);
+void	ft_exit(char *str, t_data *g_data);
 
 /*		ft_start.c	*/
-void	ft_timestamp(int actual_name, t_data *data);
-void	ft_start(t_data *data);
+void	ft_timestamp(/*struct timeval	ms,*/ int *actual);
+void	ft_start(t_data *g_data);
 
 /*	utils_basic.c	*/
 int		ft_strncmp(char *s1, char *s2, int len);
