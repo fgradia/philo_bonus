@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/16 19:54:49 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/17 14:39:03 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	main(int ac, char **av)
 		if (data.phils_n == 1)
 		{
 			data.phils_n--;
-			ft_timestamp(data.phils_n, &data);
-			ft_write(1, " died +++\n");
+			ft_timestamp(0, &data, NULL, " died +++\n");
+			// ft_write(1, " died +++\n");
 			ft_exit("", &data);
 		}
 		ft_start(&data);

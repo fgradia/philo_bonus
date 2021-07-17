@@ -6,20 +6,22 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/16 20:22:36 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/17 15:55:39 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
 
-void	ft_timestamp(int actual_name, t_data *data)
+void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str)
 {
 	int				x;
 	int				pow;
+	// int				tmp;
 	struct timeval	ms;
 
-	pow = 1000000;
 	gettimeofday(&ms, NULL);
+	pow = 1000000;
+	// tmp = (ms.tv_sec % 1000) * 1000000 + ms.tv_usec;
 	x = (ms.tv_sec % 1000) * pow + ms.tv_usec;
 	ft_write_num((x - data->start) / pow);
 	ft_write(1, ",");
@@ -34,7 +36,27 @@ void	ft_timestamp(int actual_name, t_data *data)
 	}
 	ft_write_num((x));// / 100));
 	ft_write(1, " ");
-	ft_write_num(actual_name);
+	if (!actual)
+	{
+		ft_write(1, " died --+++\n");//ft_write_num(0);
+		return ;
+	}
+	else
+		ft_write_num(actual->name);
+	if ((/*tmp*/x / 1000) - (actual->last_eat / 1000) > data->die_t / 1000)
+	{
+		ft_write(1, " \t\t\tdied +++\n");
+		actual->die = 666;
+	}
+	else
+		ft_write(1, str);
+	// printf("%d  - %d =\t", tmp, actual->last_eat);
+	// printf("%d  - %d =\t", tmp / 1000, actual->last_eat/1000);
+	// printf("%d  >= %d\t", tmp - actual->last_eat, data->die_t/1000);
+	// printf("%d  >= %d\n", tmp /1000 - actual->last_eat/1000, data->die_t/1000);
+
+	if (flag == 1)
+		actual->last_eat = x;//tmp;
 }
 
 // void	*ft_dying(void *arg)
@@ -94,8 +116,8 @@ void	ft_sleep(t_philo	*actual)
 		pthread_mutex_unlock(&actual->data->mut_die);
 		return (ft_mut_fork(0, actual));
 	}
-	ft_timestamp(actual->name, actual->data);
-	ft_write(1, " is thinking\n");
+	ft_timestamp(0, actual->data, actual, " is thinking\n");
+	// ft_write(1, " is thinking\n");
 	pthread_mutex_unlock(&actual->data->mut_die);
 	ft_mut_fork(0, actual);
 }
@@ -104,7 +126,7 @@ void	ft_eat(t_philo	*actual)
 {
 	ft_mut_fork(1, actual);
 	pthread_mutex_lock(&actual->data->mut_die);
-	if (*actual->f_l_stat != 0 && *actual->f_r_stat != 0 && actual->die == 666)
+	if (*actual->f_l_stat != 0 && *actual->f_r_stat != 0)// && actual->die == 666)
 	{
 		pthread_mutex_unlock(&actual->data->mut_die);
 		return (ft_mut_fork(0, actual));
@@ -112,53 +134,71 @@ void	ft_eat(t_philo	*actual)
 	if (*actual->f_l_stat == 1)
 		ft_write(1, "\t\tstealing fork...\n");
 	*actual->f_l_stat = 1;
-	ft_timestamp(actual->name, actual->data);
-	ft_write(1, " has taken a fork\n");
+	ft_timestamp(0, actual->data, actual, " has taken a fork\n");
+	// ft_write(1, " has taken a fork\n");
 	if (*actual->f_r_stat == 1)
 		ft_write(1, "\t\tstealing fork...\n");
 	*actual->f_r_stat = 1;
-	ft_timestamp(actual->name, actual->data);
-	ft_write(1, " has taken a fork\n");
-	ft_timestamp(actual->name, actual->data);
-	ft_write(1, " is eating\n");
+	ft_timestamp(0, actual->data, actual, " has taken a fork\n");
+	// ft_write(1, " has taken a fork\n");
+	ft_timestamp(1, actual->data, actual, " is eating\n");
+	// ft_write(1, " is eating\n");
 	actual->eat_n--;
 	pthread_mutex_unlock(&actual->data->mut_die);
 	usleep(actual->data->eat_t);
 	pthread_mutex_lock(&actual->data->mut_die);
 	// actual->eat_n--;
+	// if (actual->die == 666)
+	// {
+		// pthread_mutex_unlock(&actual->data->mut_die);
+		// return (ft_mut_fork(0, actual));
+	// }
+	ft_timestamp(0, actual->data, actual," is sleeping\n");
+	// ft_write(1, " is sleeping\n");
+	*actual->f_l_stat = 0;
+	*actual->f_r_stat = 0;
+	pthread_mutex_unlock(&actual->data->mut_die);
+	ft_mut_fork(0, actual);
+
+	usleep(actual->data->sleep_t);
+	ft_mut_fork(1, actual);
+	pthread_mutex_lock(&actual->data->mut_die);
+	// if (*actual->f_l_stat == 0 && *actual->f_r_stat == 0 && actual->eat_n != 0 )//&& actual->die == 666)
+	// {
+	// 	pthread_mutex_unlock(&actual->data->mut_die);
+	// 	return (ft_mut_fork(0, actual));
+	// }
 	if (actual->die == 666)
 	{
 		pthread_mutex_unlock(&actual->data->mut_die);
 		return (ft_mut_fork(0, actual));
 	}
-	ft_timestamp(/*ms,*/ actual->name, actual->data);
-	ft_write(1, " is sleeping\n");
-	*actual->f_l_stat = 0;
-	*actual->f_r_stat = 0;
+
+	ft_timestamp(0, actual->data, actual, " is thinking\n");
+	// ft_write(1, " is thinking\n");
 	pthread_mutex_unlock(&actual->data->mut_die);
 	ft_mut_fork(0, actual);
 }
 
 void	*ft_routine(void *arg)
 {
-	t_philo	*actual;
+	t_philo			*actual;
 
 	actual = (t_philo *)arg;
-
 	if (actual->name % 2 == 0)
 		usleep(actual->data->eat_t - 10);
-	while (actual->eat_n != 0)
+	while (actual->eat_n != 0 && actual->die != 666)
 	{
-		if (actual->die)
-			return (NULL);
+		// if (actual->die)
+		// 	return (NULL);
 		ft_eat(actual);
-		if (actual->die)
-			return (NULL);
-		ft_sleep(actual);
-		if (actual->die)
-			return (NULL);
+		// if (actual->die)
+		// 	return (NULL);
+		// ft_sleep(actual);
+		// if (actual->die)
+		// 	return (NULL);
 	}
-
+	actual->die = 666;
 	// while (data.eat_n[*actual] != 0)
 	// {
 				
@@ -197,7 +237,7 @@ void	ft_check_dying(t_philo **philos, t_data *data)//int phils_n, int die_t)
 				pre_status[x] = 0;
 				while (pre_status[x] < data->phils_n)
 				{
-					if (philos[x]->eat_n != 0)
+					if (philos[pre_status[x]]->eat_n != 0)
 					{
 						die = 999;
 						break ;
@@ -210,8 +250,8 @@ void	ft_check_dying(t_philo **philos, t_data *data)//int phils_n, int die_t)
 					pthread_mutex_unlock(&data->mut_die);
 					return ;
 				}
-				ft_timestamp(/*ms,*/ philos[x]->name, data);
-				ft_write(1, " died +++\n");
+				ft_timestamp(/*ms,*/ philos[x]->name, data, philos[x], " died +++\n");
+				// ft_write(1, " died +++\n");
 				die = 666;
 				x = 0;
 				while (x < data->phils_n)
@@ -243,6 +283,48 @@ void	ft_check_dying(t_philo **philos, t_data *data)//int phils_n, int die_t)
 
 }
 
+void	ft_lets_die(int flag, t_philo **philos, t_data *data)
+{
+	int	x;
+
+	x = 0;
+	while (flag && x < data->phils_n)
+	{
+		// pthread_mutex_lock(&data->mut_die);
+		if (philos[x]->eat_n != 0)
+		{
+			// pthread_mutex_lock(&data->mut_die);
+			break ;
+		}
+		// pthread_mutex_unlock(&data->mut_die);
+		x++;// = ft_next_phil(x, data->phils_n);
+	}
+	if (x == data->phils_n)
+	{
+		ft_write(1, "hanno mangiato tutti\n");
+		return ;
+	}
+	x = 0;
+	while (1)
+	{
+		// pthread_mutex_lock(&data->mut_die);
+		if (philos[x]->die == 666)
+		{
+			pthread_mutex_lock(&data->mut_die);
+			break ;
+		}
+		// pthread_mutex_unlock(&data->mut_die);
+		x = ft_next_phil(x, data->phils_n);
+	}
+	x = 0;
+	while (x < data->phils_n)
+	{
+		philos[x]->die = 666;
+		x++;
+	}
+	pthread_mutex_unlock(&data->mut_die);
+}
+
 void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_data *data)
 {
 	int		x;
@@ -254,6 +336,7 @@ void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_d
 		philos[x]->phil = (pthread_t *)malloc(sizeof(pthread_t) * 1);
 		philos[x]->name = x + 1;//ft_next_phil(x);
 		philos[x]->eat_n = data->eat_n;
+		philos[x]->last_eat = data->start;
 		philos[x]->die = 0;
 		philos[x]->f_l_stat = &fork[x];
 		philos[x]->fork_l = &mut_fork[x];
@@ -270,7 +353,8 @@ void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_d
 		// 	printf("\tp_d:error\n");
 		x++;
 	}
-	ft_check_dying(philos, data);//data->phils_n, data->die_t);
+	ft_lets_die(1, philos, data);
+	//ft_check_dying(philos, data);//data->phils_n, data->die_t);			/////////////////////
 	// x = 0;
 	// while (x < data->phils_n)
 	// {
@@ -325,6 +409,8 @@ void	ft_start(t_data *data)
 	ft_create_philo(philos, fork, mut_fork, data);
 	// data->fork[data->x] = 0;
 	ft_join_philo(philos, data);
+	ft_lets_die(1, philos, data);
+
 	// free(args);
 	x = 0;
 	while (x < data->phils_n)

@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/16 19:19:33 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/17 14:35:08 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_philo
 	pthread_t		*phil;
 	int				name;
 	int				eat_n;
+	int				last_eat;
 	int				die;
 	int				*f_l_stat;
 	pthread_mutex_t	*fork_l;
@@ -86,7 +87,7 @@ void	ft_init_data(char **av, t_data *data);
 void	ft_exit(char *str, t_data *data);
 
 /*		ft_start.c	*/
-void	ft_timestamp(int actual_name, t_data *data);
+void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str);
 void	ft_start(t_data *data);
 
 /*	utils_basic.c	*/
