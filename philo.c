@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 10:17:54 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 13:13:33 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,21 @@ int	main(int ac, char **av)
 	if (ac == 5 || ac == 6)
 	{
 		data.start = (ms_start.tv_sec % 1000) * 1000000 + ms_start.tv_usec;
-		ft_write_num(data.start / 1000000);
-		ft_write(1, ",");
-		ft_write_num(data.start % 1000000);
-		ft_write(1, "\n");
+		// ft_write_num(data.start / 1000000);
+		// ft_write(1, ",");
+		// ft_write_num(data.start % 1000000);
+		// ft_write(1, "\n");
 		ft_init_data(av, &data);
 		if (ac == 6)
 			data.eat_n = ft_atoi(av[5]);
 		if (data.phils_n == 1)
 		{
-			data.phils_n--;
-			ft_timestamp(0, &data, NULL, " died +++\n");
+			ft_timestamp(2, &data, NULL, " is thinking\n");
+			ft_timestamp(2, &data, NULL, " has taken a fork\n");
+			ft_timestamp(2, &data, NULL, " died +++\n");
 			ft_exit("", &data);
 		}
 		ft_start(&data);
 	}
-	else
-		exit(2);
 	ft_exit("", &data);
 }
