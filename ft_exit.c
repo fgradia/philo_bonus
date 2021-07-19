@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/16 18:59:29 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 09:52:25 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	ft_exit(char *str, t_data *data)
 	// 	free(data->dying_phil);
 	// if (data->mut_fork)
 	// 	free(data->mut_fork);
-	printf("check leaks\n");
-	read(0, NULL, 1);
+	// printf("check leaks\n");
+	// read(0, NULL, 1);
 	exit(0);
 
 	(void)data;

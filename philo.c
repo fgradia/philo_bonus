@@ -6,29 +6,29 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/17 14:39:03 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 09:57:30 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
 
-int	ft_prec_phil(int actual, int phils_n)
+long	ft_prec_phil(long actual, long phils_n)
 {
 	if (actual - 1 >= 0)
 		return (actual - 1);
 	return (phils_n - 1);
 }
 
-int	ft_next_phil(int actual, int phils_n)
+long	ft_next_phil(long actual, long phils_n)
 {
 	if (actual + 1 < phils_n)
 		return (actual + 1);
 	return (0);
 }
 
-void	ft_init_array(int *array, int val, int phils_n)
+void	ft_init_array(long *array, long val, long phils_n)
 {
-	int	x;
+	long	x;
 
 	x = 0;
 	while (x < phils_n)
@@ -42,14 +42,14 @@ void	ft_init_data(char **av, t_data *data)
 	data->eat_t = ft_atoi(av[3]) * 1000;
 	data->sleep_t = ft_atoi(av[4]) * 1000;
 	data->eat_n = -1;
-	// data->eat_n = (int *)malloc(sizeof(int) * data->phils_n);
+	// data->eat_n = (long *)malloc(sizeof(long) * data->phils_n);
 	// ft_init_array(data->eat_n, -1);	
 	// data->x = 0;
-	// data->fork = (int *)malloc(sizeof(int) * data->phils_n);
+	// data->fork = (long *)malloc(sizeof(long) * data->phils_n);
 	// ft_init_array(data->fork, 0, data->phils_n);
-	// data->fork_2 = (int *)malloc(sizeof(int) * data->phils_n);
+	// data->fork_2 = (long *)malloc(sizeof(long) * data->phils_n);
 	// ft_init_array(data->fork_2, 0);
-	// data->die = (int *)malloc(sizeof(int) * data->phils_n);
+	// data->die = (long *)malloc(sizeof(long) * data->phils_n);
 	// ft_init_array(data->die, -1);
 	// data->phil = (pthread_t *)malloc(sizeof(pthread_t) * (data->phils_n));
 	// data->dying_phil = (pthread_t *)malloc(sizeof(pthread_t) * (data->phils_n));

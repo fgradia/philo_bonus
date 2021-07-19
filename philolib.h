@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/17 14:35:08 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 09:56:33 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 
-//	memset, printf, malloc, free, write,
+//	memset, prlongf, malloc, free, write,
 //	usleep, gettimeofday,	
 //	pthread_create,
 //	pthread_detach, 
@@ -40,18 +40,18 @@
 
 typedef struct s_data
 {
-	int		phils_n;
-	int		die_t;
-	int		eat_t;
-	int		sleep_t;
-	int		eat_n;
-	int		start;
+	long		phils_n;
+	long		die_t;
+	long		eat_t;
+	long		sleep_t;
+	long		eat_n;
+	long		start;
 	// t_philo	**phils;
 
-	// int				x;
-	// int				*fork;
-	// int				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
-	// int				*die;			//	pari == eating ; dispari == inattivo 
+	// long				x;
+	// long				*fork;
+	// long				*fork;			//	0 == disponibile ; 1 == eating ; 2 == blocked 
+	// long				*die;			//	pari == eating ; dispari == inattivo 
 	// pthread_t		*phil;
 	// pthread_t		*dying_phil;
 	pthread_mutex_t	mut_die;
@@ -62,13 +62,13 @@ typedef struct s_data
 typedef struct s_philo
 {
 	pthread_t		*phil;
-	int				name;
-	int				eat_n;
-	int				last_eat;
-	int				die;
-	int				*f_l_stat;
+	long				name;
+	long				eat_n;
+	long				last_eat;
+	long				die;
+	long				*f_l_stat;
 	pthread_mutex_t	*fork_l;
-	int				*f_r_stat;
+	long				*f_r_stat;
 	pthread_mutex_t	*fork_r;
 	t_data			*data;
 }	t_philo;
@@ -77,25 +77,25 @@ typedef struct s_philo
 // t_data	data;
 
 /*		philo.c		****	MAIN	****	*/
-int		ft_prec_phil(int actual, int phils_n);
-int		ft_next_phil(int actual, int phils_n);
-void	ft_init_array(int *array, int val, int phils_n);
-// void	ft_init_array(int *array, int val);
+long		ft_prec_phil(long actual, long phils_n);
+long		ft_next_phil(long actual, long phils_n);
+void	ft_init_array(long *array, long val, long phils_n);
+// void	ft_init_array(long *array, long val);
 void	ft_init_data(char **av, t_data *data);
 
 /*		ft_exit.c	*/
 void	ft_exit(char *str, t_data *data);
 
 /*		ft_start.c	*/
-void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str);
+void	ft_timestamp(long flag, t_data *data, t_philo *actual, char *str);
 void	ft_start(t_data *data);
 
 /*	utils_basic.c	*/
-int		ft_strncmp(char *s1, char *s2, int len);
-int		ft_strlen(char *str);
-void	ft_write(int fd, char *str);
-int		ft_atoi(char *str);
-char	*ft_itoa(int num);
-void	ft_write_num(int num);
+long		ft_strncmp(char *s1, char *s2, long len);
+long		ft_strlen(char *str);
+void	ft_write(long fd, char *str);
+long		ft_atoi(char *str);
+char	*ft_itoa(long num);
+void	ft_write_num(long num);
 
 #endif

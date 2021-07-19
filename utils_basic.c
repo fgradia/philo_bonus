@@ -6,13 +6,13 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:50 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/14 15:15:43 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 09:56:42 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
 
-int	ft_strncmp(char *s1, char *s2, int len)
+long	ft_strncmp(char *s1, char *s2, long len)
 {
 	while (s1 && s2 && *s1 && *s2 && *s1 == *s2 && --len)
 	{
@@ -22,9 +22,9 @@ int	ft_strncmp(char *s1, char *s2, int len)
 	return (*s1 - *s2);
 }
 
-int	ft_strlen(char *str)
+long	ft_strlen(char *str)
 {
-	int	x;
+	long	x;
 
 	x = 0;
 	while (str && str[x])
@@ -32,16 +32,16 @@ int	ft_strlen(char *str)
 	return (x);
 }
 
-void	ft_write(int fd, char *str)
+void	ft_write(long fd, char *str)
 {
 	write(fd, str, ft_strlen(str));
 	// write(fd, "\n", 1);
 }
 
-int	ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
-	int	x;
-	int	tot;
+	long	x;
+	long	tot;
 
 	x = 0;
 	tot = 0;
@@ -50,10 +50,10 @@ int	ft_atoi(char *str)
 	return (tot);
 }
 
-char	*ft_itoa(int num)
+char	*ft_itoa(long num)
 {
-	int		x;
-	int		tmp;
+	long		x;
+	long		tmp;
 	char	*new;
 
 	x = 1;
@@ -70,7 +70,7 @@ char	*ft_itoa(int num)
 	return (new);
 }
 
-void	ft_write_num(int num)
+void	ft_write_num(long num)
 {
 	char	q;
 

@@ -6,17 +6,17 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/17 15:55:39 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 09:57:54 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
 
-void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str)
+void	ft_timestamp(long flag, t_data *data, t_philo *actual, char *str)
 {
-	int				x;
-	int				pow;
-	// int				tmp;
+	long				x;
+	long				pow;
+	// long				tmp;
 	struct timeval	ms;
 
 	gettimeofday(&ms, NULL);
@@ -50,10 +50,10 @@ void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str)
 	}
 	else
 		ft_write(1, str);
-	// printf("%d  - %d =\t", tmp, actual->last_eat);
-	// printf("%d  - %d =\t", tmp / 1000, actual->last_eat/1000);
-	// printf("%d  >= %d\t", tmp - actual->last_eat, data->die_t/1000);
-	// printf("%d  >= %d\n", tmp /1000 - actual->last_eat/1000, data->die_t/1000);
+	// prlongf("%d  - %d =\t", tmp, actual->last_eat);
+	// prlongf("%d  - %d =\t", tmp / 1000, actual->last_eat/1000);
+	// prlongf("%d  >= %d\t", tmp - actual->last_eat, data->die_t/1000);
+	// prlongf("%d  >= %d\n", tmp /1000 - actual->last_eat/1000, data->die_t/1000);
 
 	if (flag == 1)
 		actual->last_eat = x;//tmp;
@@ -61,12 +61,12 @@ void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str)
 
 // void	*ft_dying(void *arg)
 // {
-// 	int				*actual;
-// 	int				x;
+// 	long				*actual;
+// 	long				x;
 // 	// struct timeval	ms;
 
 // 	x = 0;
-// 	actual = (int *)arg;
+// 	actual = (long *)arg;
 // 	// while (data.fork[data.x] <= 0)
 // 	while (data.die[data.x] < 1)
 // 		x++;//continue ;
@@ -91,7 +91,7 @@ void	ft_timestamp(int flag, t_data *data, t_philo *actual, char *str)
 // 	return (NULL);
 // }
 
-void	ft_mut_fork(int status, t_philo	*actual)
+void	ft_mut_fork(long status, t_philo	*actual)
 {
 	if (status)
 	{
@@ -206,15 +206,15 @@ void	*ft_routine(void *arg)
 	return (NULL);
 }
 
-void	ft_check_dying(t_philo **philos, t_data *data)//int phils_n, int die_t)
+void	ft_check_dying(t_philo **philos, t_data *data)//long phils_n, long die_t)
 {
-	int	x;
-	int die;
-	int *pre_status;
+	long	x;
+	long die;
+	long *pre_status;
 
 	x = 0;
 	die = 0;
-	pre_status = (int *)malloc(sizeof(int) * data->phils_n);
+	pre_status = (long *)malloc(sizeof(long) * data->phils_n);
 	while (die != 666)
 	{
 		x = 0;
@@ -283,9 +283,9 @@ void	ft_check_dying(t_philo **philos, t_data *data)//int phils_n, int die_t)
 
 }
 
-void	ft_lets_die(int flag, t_philo **philos, t_data *data)
+void	ft_lets_die(long flag, t_philo **philos, t_data *data)
 {
-	int	x;
+	long	x;
 
 	x = 0;
 	while (flag && x < data->phils_n)
@@ -325,9 +325,9 @@ void	ft_lets_die(int flag, t_philo **philos, t_data *data)
 	pthread_mutex_unlock(&data->mut_die);
 }
 
-void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_data *data)
+void	ft_create_philo(t_philo **philos, long *fork, pthread_mutex_t *mut_fork, t_data *data)
 {
-	int		x;
+	long		x;
 
 	x = 0;
 	while (x < data->phils_n)
@@ -348,9 +348,9 @@ void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_d
 		// if (pthread_create(&data->dying_phil[x], NULL, ft_dying, (void *)&arg[x]) != 0)
 			// ft_exit("Error: a philo didn't seat\n", data);
 		// if (pthread_detach(data->dying_phil[x]))
-		// 	printf("\tp_d:error\n");
+		// 	prlongf("\tp_d:error\n");
 		// if (pthread_detach(*philos[x]->phil))
-		// 	printf("\tp_d:error\n");
+		// 	prlongf("\tp_d:error\n");
 		x++;
 	}
 	ft_lets_die(1, philos, data);
@@ -359,7 +359,7 @@ void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_d
 	// while (x < data->phils_n)
 	// {
 	//  	if (pthread_join(*philos[x]->phil, NULL) != 0)
-	// 		printf("\tp_j:error\n");
+	// 		prlongf("\tp_j:error\n");
 	// 	x++;
 	// }
 	// free(fork);
@@ -375,7 +375,7 @@ void	ft_create_philo(t_philo **philos, int *fork, pthread_mutex_t *mut_fork, t_d
 
 void	ft_join_philo(t_philo **philos, t_data *data)
 {
-	int	x;
+	long	x;
 
 	x = 0;
 	while (x < data->phils_n)
@@ -389,12 +389,12 @@ void	ft_join_philo(t_philo **philos, t_data *data)
 
 void	ft_start(t_data *data)
 {
-	int		x;
-	int		*fork;
+	long		x;
+	long		*fork;
 	t_philo	**philos;
 	pthread_mutex_t	*mut_fork;
 
-	fork = (int *)malloc(sizeof(int) * data->phils_n);
+	fork = (long *)malloc(sizeof(long) * data->phils_n);
 	ft_init_array(fork, 0, data->phils_n);
 	philos = (t_philo **)malloc(sizeof(t_philo *) * data->phils_n);
 	mut_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (data->phils_n));
