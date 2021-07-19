@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 10:49:17 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 11:10:02 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ void	ft_eat(t_philo	*actual)
 	ft_mut_fork(0, actual);
 	usleep(actual->data->sleep_t);
 	ft_mut_fork(1, actual);
-	if (actual->die == 666)
-		return (ft_mut_fork(0, actual));
-	if (ft_timestamp(0, actual->data, actual, " is thinking\n") == 666)
+	if (ft_thinking(actual) == 666)
 		return (ft_mut_fork(0, actual));
 	ft_mut_fork(0, actual);
 }

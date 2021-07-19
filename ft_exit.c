@@ -6,11 +6,20 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 10:47:19 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 11:11:14 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
+
+long	ft_thinking(t_philo *actual)
+{
+	if (actual->die == 666)
+		return (666);
+	if (*actual->f_l_stat == 0 && *actual->f_r_stat == 0)
+		return (0);
+	return (ft_timestamp(0, actual->data, actual, " is thinking\n"));
+}
 
 long	ft_sleeping(t_philo *actual)
 {

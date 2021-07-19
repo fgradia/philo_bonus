@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 10:38:19 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 11:10:49 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_init_array(long *array, long val, long phils_n);
 void	ft_init_data(char **av, t_data *data);
 
 /*		ft_exit.c	*/
+long	ft_thinking(t_philo *actual);
 long	ft_sleeping(t_philo *actual);
 long	ft_forking(char flag, t_philo	*actual);
 void	ft_exit(char *str, t_data *data);
