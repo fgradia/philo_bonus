@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 09:57:30 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 10:17:54 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,12 @@ void	ft_init_data(char **av, t_data *data)
 	data->eat_t = ft_atoi(av[3]) * 1000;
 	data->sleep_t = ft_atoi(av[4]) * 1000;
 	data->eat_n = -1;
-	// data->eat_n = (long *)malloc(sizeof(long) * data->phils_n);
-	// ft_init_array(data->eat_n, -1);	
-	// data->x = 0;
-	// data->fork = (long *)malloc(sizeof(long) * data->phils_n);
-	// ft_init_array(data->fork, 0, data->phils_n);
-	// data->fork_2 = (long *)malloc(sizeof(long) * data->phils_n);
-	// ft_init_array(data->fork_2, 0);
-	// data->die = (long *)malloc(sizeof(long) * data->phils_n);
-	// ft_init_array(data->die, -1);
-	// data->phil = (pthread_t *)malloc(sizeof(pthread_t) * (data->phils_n));
-	// data->dying_phil = (pthread_t *)malloc(sizeof(pthread_t) * (data->phils_n));
-	// data->mut_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (data->phils_n));
-	// data->mut_die = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
-	// if (/*!data->phil ||*/ !data->mut_fork /*|| !data->fork*/)
-		// ft_exit("malloc_fault\n", data);
-	// gettimeofday(&data->ms_start, NULL);
 }
 
 int	main(int ac, char **av)
 {
 	struct timeval	ms_start;
-	t_data	data;
+	t_data			data;
 
 	gettimeofday(&ms_start, NULL);
 	if (ac == 5 || ac == 6)
@@ -75,13 +59,11 @@ int	main(int ac, char **av)
 		ft_write(1, "\n");
 		ft_init_data(av, &data);
 		if (ac == 6)
-			data.eat_n = ft_atoi(av[5]);// * data.phils_n;
-			// ft_init_array(data.eat_n, ft_atoi(av[5]));
+			data.eat_n = ft_atoi(av[5]);
 		if (data.phils_n == 1)
 		{
 			data.phils_n--;
 			ft_timestamp(0, &data, NULL, " died +++\n");
-			// ft_write(1, " died +++\n");
 			ft_exit("", &data);
 		}
 		ft_start(&data);
