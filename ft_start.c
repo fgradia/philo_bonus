@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 11:10:02 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 11:28:41 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,16 @@ void	ft_mut_fork(long status, t_philo	*actual)
 void	ft_eat(t_philo	*actual)
 {
 	ft_mut_fork(1, actual);
-	if (*actual->f_l_stat != 0 && *actual->f_r_stat != 0)
+	// if (*actual->f_l_stat != 0 && *actual->f_r_stat != 0)
+	// 	return (ft_mut_fork(0, actual));
+	// if (ft_forking('l', actual) == 666)
+		// return (ft_mut_fork(0, actual));
+	// if (ft_forking('r', actual) == 666)
+		// return (ft_mut_fork(0, actual));
+	if (ft_forking_2(actual) == 666)
 		return (ft_mut_fork(0, actual));
-	if (ft_forking('l', actual) == 666)
-		return (ft_mut_fork(0, actual));
-	if (ft_forking('r', actual) == 666)
-		return (ft_mut_fork(0, actual));
-	if (ft_timestamp(1, actual->data, actual, " is eating\n") == 666)
-		return (ft_mut_fork(0, actual));
+	// if (ft_timestamp(1, actual->data, actual, " is eating\n") == 666)
+	// 	return (ft_mut_fork(0, actual));
 	actual->eat_n--;
 	pthread_mutex_unlock(&actual->data->mut_die);
 	usleep(actual->data->eat_t);
@@ -177,7 +179,7 @@ void	ft_join_philo(t_philo **philos, t_data *data)
 	while (x < data->phils_n)
 	{
 		if (pthread_join(*philos[x]->phil, NULL) != 0)
-			printf("\tp_j:error\n");
+			ft_write(1, "\tp_j:error\n");
 		x++;
 	}
 }
