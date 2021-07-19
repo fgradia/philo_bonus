@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:50 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 13:18:51 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 14:55:41 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ long	ft_strncmp(char *s1, char *s2, long len)
 	return (*s1 - *s2);
 }
 
-long	ft_strlen(char *str)
-{
-	long	x;
-
-	x = 0;
-	while (str && str[x])
-		x++;
-	return (x);
-}
-
 void	ft_write(long fd, char *str)
 {
 	long	x;
@@ -39,7 +29,7 @@ void	ft_write(long fd, char *str)
 	x = 0;
 	while (str && str[x])
 		x++;
-	write(fd, str, x);//ft_strlen(str));
+	write(fd, str, x);
 }
 
 long	ft_atoi(char *str)

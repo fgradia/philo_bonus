@@ -3,7 +3,8 @@ CFLAGS	=	-Wall -Wextra #-Werror
 OBJS	=	ft_exit.o \
 			ft_start.o \
 			philo.o \
-			utils_basic.o			
+			utils_basic.o \
+			utils_start.o		
 
 all		:	$(NAME)
 

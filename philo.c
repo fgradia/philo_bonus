@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 13:13:33 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 14:54:53 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,7 @@ int	main(int ac, char **av)
 	gettimeofday(&ms_start, NULL);
 	if (ac == 5 || ac == 6)
 	{
-		data.start = (ms_start.tv_sec % 1000) * 1000000 + ms_start.tv_usec;
-		// ft_write_num(data.start / 1000000);
-		// ft_write(1, ",");
-		// ft_write_num(data.start % 1000000);
-		// ft_write(1, "\n");
+		data.start = ms_start.tv_sec % 1000 * 1000 + ms_start.tv_usec / 1000;
 		ft_init_data(av, &data);
 		if (ac == 6)
 			data.eat_n = ft_atoi(av[5]);

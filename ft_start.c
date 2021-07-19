@@ -6,76 +6,19 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 13:52:55 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/19 15:49:26 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
 
-long	ft_timestamp(long flag, t_data *data, t_philo *actual, char *str)
-{
-	long				x;
-	long				pow;
-	struct timeval	ms;
-
-	gettimeofday(&ms, NULL);
-	pow = 1000000;
-	x = (ms.tv_sec % 1000) * pow + ms.tv_usec;
-	ft_write_num((x - data->start) / pow);
-	ft_write(1, ",");
-	x = ms.tv_usec + pow  - (data->start % pow);
-	if (x / pow != 0)
-		x = x % pow;
-	pow /= 10;
-	while (x / pow == 0)
-	{
-		ft_write_num(0);
-		pow /= 10;
-	}
-	ft_write_num((x));// / 1000));
-	ft_write(1, " ");
-	if (!actual)
-		ft_write_num(flag - 1);
-	else
-		ft_write_num(actual->name);
-	if (actual && (x / 1000) - (actual->last_eat / 1000) > data->die_t / 1000)
-	{
-		ft_write(1, " \t\t\tdied +++\n");
-		actual->die = 666;
-		return (666);
-	}
-	else
-		ft_write(1, str);
-	if (flag == 1)
-		actual->last_eat = x;
-	return (0);
-}
-
-void	ft_mut_fork(long status, t_philo	*actual)
-{
-	if (status)
-	{
-		pthread_mutex_lock(actual->fork_l);
-		pthread_mutex_lock(actual->fork_r);
-		pthread_mutex_lock(&actual->data->mut_die);
-	}
-	else
-	{
-		pthread_mutex_unlock(&actual->data->mut_die);
-		pthread_mutex_unlock(actual->fork_r);
-		pthread_mutex_unlock(actual->fork_l);
-	}
-}
-
-void	ft_eat(t_philo	*actual)
+void	ft_eat_sleep_think(t_philo	*actual)
 {
 	ft_mut_fork(1, actual);
-	if (ft_forking_2(actual) == 666)
+	if (ft_forking_eating(actual) == 666)
 		return (ft_mut_fork(0, actual));
 	actual->eat_n--;
-	pthread_mutex_unlock(&actual->data->mut_die);
 	usleep(actual->data->eat_t);
-	pthread_mutex_lock(&actual->data->mut_die);
 	if (ft_sleeping(actual) == 666)
 		return (ft_mut_fork(0, actual));
 	ft_mut_fork(0, actual);
@@ -94,7 +37,7 @@ void	*ft_routine(void *arg)
 	if (actual->name % 2 == 0)
 		usleep(actual->data->eat_t - 10);
 	while (actual->eat_n != 0 && actual->die != 666)
-		ft_eat(actual);
+		ft_eat_sleep_think(actual);
 	actual->die = 666;
 	return (NULL);
 }
@@ -124,22 +67,17 @@ void	ft_lets_die(long flag, t_philo **philos, t_data *data)
 	}
 	x = 0;
 	while (x < data->phils_n)
-	{
-		philos[x]->die = 666;
-		x++;
-	}
+		philos[x++]->die = 666;
 }
 
-void	ft_create_philo(t_philo **philos, long *fork, pthread_mutex_t *mut_fork, t_data *data)
+void	ft_create_philo(t_philo **philos, long *fork,
+		pthread_mutex_t *mut_fork, t_data *data)
 {
 	long	x;
 
-	x = 0;
-	while (x < data->phils_n)
-	{
+	x = -1;
+	while (x++ < data->phils_n)
 		ft_timestamp(x + 2, data, NULL, " is thinking\n");
-		x++;
-	}
 	x = 0;
 	while (x < data->phils_n)
 	{
@@ -154,24 +92,12 @@ void	ft_create_philo(t_philo **philos, long *fork, pthread_mutex_t *mut_fork, t_
 		philos[x]->f_r_stat = &fork[ft_next_phil(x, data->phils_n)];
 		philos[x]->fork_r = &mut_fork[ft_next_phil(x, data->phils_n)];
 		philos[x]->data = data;
-		if (pthread_create(philos[x]->phil, NULL, ft_routine, (void *)philos[x]) != 0)
+		if (pthread_create(philos[x]->phil, NULL,
+				ft_routine, (void *)philos[x]) != 0)
 			ft_exit("Error: a philo didn't seat\n", data);
 		x++;
 	}
 	ft_lets_die(1, philos, data);
-}
-
-void	ft_join_philo(t_philo **philos, t_data *data)
-{
-	long	x;
-
-	x = 0;
-	while (x < data->phils_n)
-	{
-		if (pthread_join(*philos[x]->phil, NULL) != 0)
-			ft_write(1, "\tp_j:error\n");
-		x++;
-	}
 }
 
 void	ft_start(t_data *data)
@@ -184,25 +110,20 @@ void	ft_start(t_data *data)
 	fork = (long *)malloc(sizeof(long) * data->phils_n);
 	ft_init_array(fork, 0, data->phils_n);
 	philos = (t_philo **)malloc(sizeof(t_philo *) * data->phils_n);
-	mut_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (data->phils_n));
+	mut_fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* (data->phils_n));
 	x = 0;
 	while (x < data->phils_n)
-	 	pthread_mutex_init(&mut_fork[x++], NULL);
+		pthread_mutex_init(&mut_fork[x++], NULL);
 	pthread_mutex_init(&data->mut_die, NULL);
 	ft_create_philo(philos, fork, mut_fork, data);
 	ft_join_philo(philos, data);
+	pthread_mutex_lock(&data->mut_die);
 	ft_lets_die(1, philos, data);
+	pthread_mutex_unlock(&data->mut_die);
 	x = 0;
 	while (x < data->phils_n)
 		pthread_mutex_destroy(&mut_fork[x++]);
 	pthread_mutex_destroy(&data->mut_die);
-	free(fork);
-	x = 0;
-	while (x < data->phils_n)
-	{
-		free(philos[x]->phil);
-		free(philos[x++]);
-	}
-	free(philos);
-	free(mut_fork);
+	ft_free(fork, philos, mut_fork, data);
 }
