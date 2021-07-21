@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 14:54:53 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/21 18:11:08 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	ft_init_data(char **av, t_data *data)
 	data->eat_t = ft_atoi(av[3]) * 1000;
 	data->sleep_t = ft_atoi(av[4]) * 1000;
 	data->eat_n = -1;
+
+	data->die_all = 0;
 }
 
 int	main(int ac, char **av)

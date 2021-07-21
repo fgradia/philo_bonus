@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 16:40:17 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/21 18:35:17 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ typedef struct s_data
 	long			sleep_t;
 	long			eat_n;
 	long			start;
+	long			die_all;
 	pthread_mutex_t	mut_die;
+	pthread_mutex_t	mut_print;
 }	t_data;
 
 typedef struct s_philo
@@ -37,7 +39,6 @@ typedef struct s_philo
 	long			eat_n;
 	long			last_eat;
 	long			last_sleep;
-	long			die;
 	long			*f_l_stat;
 	pthread_mutex_t	*fork_l;
 	long			*f_r_stat;

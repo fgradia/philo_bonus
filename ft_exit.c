@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 17:13:31 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/21 18:11:52 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long	ft_thinking(t_philo *actual)
 {
-	if (actual->die == 666)
+	if (actual->data->die_all == 666)
 		return (666);
 	//return (ft_timestamp(0, actual->data, actual, " is thinking\n"));
 	if (ft_timestamp(0, actual->data, actual, " is thinking\n") == 666)
@@ -32,7 +32,7 @@ long	ft_thinking(t_philo *actual)
 
 long	ft_sleeping(t_philo *actual)
 {
-	if (actual->die == 666)
+	if (actual->data->die_all == 666)
 		return (666);
 	if (ft_timestamp(-2, actual->data, actual, " is sleeping\n") == 666)
 		return (666);
@@ -43,12 +43,12 @@ long	ft_sleeping(t_philo *actual)
 
 long	ft_forking_eating(t_philo	*actual)
 {
-	if (actual->die == 666)
+	if (actual->data->die_all == 666)
 		return (666);
 	if (*actual->f_l_stat == 1 || *actual->f_r_stat == 1)
 	{
 		ft_write(1, "\t\tstealing fork...\n");
-		actual->die = 666;
+		actual->data->die_all = 666;
 		return (666);
 	}
 	*actual->f_l_stat = 1;
