@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 15:49:39 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/21 16:40:17 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philo
 	long			name;
 	long			eat_n;
 	long			last_eat;
+	long			last_sleep;
 	long			die;
 	long			*f_l_stat;
 	pthread_mutex_t	*fork_l;
@@ -73,5 +74,6 @@ void	ft_write_num(long num);
 void	ft_mut_fork(long status, t_philo	*actual);
 long	ft_timestamp(long flag, t_data *data, t_philo *actual, char *str);
 void	ft_join_philo(t_philo **philos, t_data *data);
+long	ft_usleep(int flag, t_philo *actual, t_data *data);
 
 #endif

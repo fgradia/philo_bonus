@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/19 15:49:26 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/07/21 17:25:28 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,31 @@
 
 void	ft_eat_sleep_think(t_philo	*actual)
 {
+	// ft_mut_fork(1, actual);
+	// if (ft_thinking(actual) == 666)
+	// 	return (ft_mut_fork(0, actual));
+	// ft_mut_fork(0, actual);
+	// ft_mut_fork(1, actual);
+	// if (ft_timestamp(0, actual->data, actual, " is thinking\n") == 666)
+	while (*actual->f_l_stat == 1 || *actual->f_r_stat == 1)
+	{
+		// ft_mut_fork(0, actual);
+		// ft_mut_fork(1, actual);
+		continue ;
+	}
+	// ft_mut_fork(0, actual);
+	// *actual->f_l_stat == 1 && *actual->f_r_stat == 1
 	ft_mut_fork(1, actual);
 	if (ft_forking_eating(actual) == 666)
 		return (ft_mut_fork(0, actual));
+	if (ft_usleep(-1, actual, actual->data) == 666) //usleep(actual->data->eat_t);
+		return (ft_mut_fork(0, actual));
 	actual->eat_n--;
-	usleep(actual->data->eat_t);
 	if (ft_sleeping(actual) == 666)
 		return (ft_mut_fork(0, actual));
 	ft_mut_fork(0, actual);
-	usleep(actual->data->sleep_t);
+	if (ft_usleep(-2, actual, actual->data) == 666) //usleep(actual->data->sleep_t);
+		return ;//(ft_mut_fork(0, actual));
 	ft_mut_fork(1, actual);
 	if (ft_thinking(actual) == 666)
 		return (ft_mut_fork(0, actual));
@@ -34,11 +50,19 @@ void	*ft_routine(void *arg)
 	t_philo			*actual;
 
 	actual = (t_philo *)arg;
+	// ft_mut_fork(1, actual);
+	ft_thinking(actual);
+	// ft_mut_fork(0, actual);
 	if (actual->name % 2 == 0)
-		usleep(actual->data->eat_t - 10);
+		usleep(42); //(actual->data->eat_t - 10);
+	// {
+	// 	int x = 0;
+	// 	while (x < 42)
+	// 		x++;
+	// }
 	while (actual->eat_n != 0 && actual->die != 666)
 		ft_eat_sleep_think(actual);
-	actual->die = 666;
+	// actual->die = 666;
 	return (NULL);
 }
 
@@ -49,7 +73,7 @@ void	ft_lets_die(long flag, t_philo **philos, t_data *data)
 	x = 0;
 	while (flag && x < data->phils_n)
 	{
-		if (philos[x]->eat_n != 0)
+		if (philos[x]->eat_n != 0)// || philos[x]->die == 666)
 			break ;
 		x++;
 	}
@@ -68,6 +92,7 @@ void	ft_lets_die(long flag, t_philo **philos, t_data *data)
 	x = 0;
 	while (x < data->phils_n)
 		philos[x++]->die = 666;
+	pthread_mutex_unlock(&data->mut_die);
 }
 
 void	ft_create_philo(t_philo **philos, long *fork,
@@ -75,9 +100,9 @@ void	ft_create_philo(t_philo **philos, long *fork,
 {
 	long	x;
 
-	x = -1;
-	while (x++ < data->phils_n)
-		ft_timestamp(x + 2, data, NULL, " is thinking\n");
+	// x = -1;
+	// while (x++ < data->phils_n)
+		// ft_timestamp(x + 2, data, NULL, " is thinking\n");
 	x = 0;
 	while (x < data->phils_n)
 	{
@@ -86,6 +111,7 @@ void	ft_create_philo(t_philo **philos, long *fork,
 		philos[x]->name = x + 1;
 		philos[x]->eat_n = data->eat_n;
 		philos[x]->last_eat = data->start;
+		philos[x]->last_sleep = data->start;
 		philos[x]->die = 0;
 		philos[x]->f_l_stat = &fork[x];
 		philos[x]->fork_l = &mut_fork[x];
@@ -97,7 +123,7 @@ void	ft_create_philo(t_philo **philos, long *fork,
 			ft_exit("Error: a philo didn't seat\n", data);
 		x++;
 	}
-	ft_lets_die(1, philos, data);
+	// ft_lets_die(1, philos, data);
 }
 
 void	ft_start(t_data *data)
@@ -119,7 +145,23 @@ void	ft_start(t_data *data)
 	ft_create_philo(philos, fork, mut_fork, data);
 	ft_join_philo(philos, data);
 	pthread_mutex_lock(&data->mut_die);
-	ft_lets_die(1, philos, data);
+		long	xx;
+
+	x = 0;
+	while (xx < data->phils_n)
+	{
+		if (philos[xx]->eat_n != 0)// || philos[x]->die == 666)
+			break ;
+		xx++;
+	}
+	if (xx == data->phils_n)
+	{
+		ft_write(1, "hanno mangiato tutti\n");
+		// return ;
+	}
+	// ft_lets_die(1, philos, data);
+	else
+		ft_lets_die(0, philos, data);
 	pthread_mutex_unlock(&data->mut_die);
 	x = 0;
 	while (x < data->phils_n)
