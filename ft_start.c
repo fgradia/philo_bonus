@@ -14,6 +14,7 @@
 
 void	ft_eat_sleep_think(t_philo	*actual)
 {
+	
 	// ft_mut_fork(1, actual);
 	// if (ft_thinking(actual) == 666)
 	// 	return (ft_mut_fork(0, actual));
@@ -27,32 +28,50 @@ void	ft_eat_sleep_think(t_philo	*actual)
 	// 	continue ;
 	// }
 	// ft_mut_fork(0, actual);
+	// ft_mut_fork(1, actual);
+	// if (*actual->f_l_stat == 1 || *actual->f_r_stat == 1)
+	// {
+		
+	// 	return ;//(ft_mut_fork(0, actual));
+	// }
+		if (ft_thinking(actual) == 666)
+	{
+		// pthread_mutex_unlock(&actual->data->mut_die);
+		return ;//(ft_mut_fork(0, actual));
+	}
+	// ft_mut_fork(0, actual);
 	ft_mut_fork(1, actual);
-	if (*actual->f_l_stat == 1 || *actual->f_r_stat == 1)
-		return (ft_mut_fork(0, actual));
+	// int r;
+	// r = ft_forking_eating(actual);
+	// printf("\t\t%d\n", r);
+	// if (r /*= ft_forking_eating(actual))*/ == 666)
 	if (ft_forking_eating(actual) == 666)
 		return (ft_mut_fork(0, actual));
+	ft_mut_fork(0, actual);
+	// ft_mut_fork(1, actual);
 	if (ft_usleep(-1, actual, actual->data) == 666) //usleep(actual->data->eat_t);
-		return (ft_mut_fork(0, actual));
+		return ;//(ft_mut_fork(0, actual));
 	actual->eat_n--;
+	// ft_mut_fork(0, actual);
+	ft_mut_fork(1, actual);
 	if (ft_sleeping(actual) == 666)
 		return (ft_mut_fork(0, actual));
 	ft_mut_fork(0, actual);
-	pthread_mutex_lock(&actual->data->mut_die);
+	// pthread_mutex_lock(&actual->data->mut_die);
 	if (ft_usleep(-2, actual, actual->data) == 666) //usleep(actual->data->sleep_t);
 	{
-		pthread_mutex_unlock(&actual->data->mut_die);
+		// pthread_mutex_unlock(&actual->data->mut_die);
 		return ;//(ft_mut_fork(0, actual));
 	}
-	pthread_mutex_unlock(&actual->data->mut_die);
+	// pthread_mutex_unlock(&actual->data->mut_die);
 	// ft_mut_fork(1, actual);
-	pthread_mutex_lock(&actual->data->mut_die);
-	if (ft_thinking(actual) == 666)
-	{
-		pthread_mutex_unlock(&actual->data->mut_die);
-		return ;//(ft_mut_fork(0, actual));
-	}
-	pthread_mutex_unlock(&actual->data->mut_die);// ft_mut_fork(0, actual);
+	// pthread_mutex_lock(&actual->data->mut_die);
+				// if (ft_thinking(actual) == 666)
+				// {
+				// 	// pthread_mutex_unlock(&actual->data->mut_die);
+				// 	return ;//(ft_mut_fork(0, actual));
+				// }
+	// pthread_mutex_unlock(&actual->data->mut_die);// ft_mut_fork(0, actual);
 }
 
 void	*ft_routine(void *arg)
@@ -61,7 +80,7 @@ void	*ft_routine(void *arg)
 
 	actual = (t_philo *)arg;
 	// ft_mut_fork(1, actual);
-	ft_thinking(actual);
+	// ft_thinking(actual);
 	// ft_mut_fork(0, actual);
 	if (actual->name % 2 == 0)
 		usleep(42); //(actual->data->eat_t - 10);

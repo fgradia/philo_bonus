@@ -19,7 +19,7 @@ void	ft_mut_fork(long status, t_philo	*actual)
 		pthread_mutex_lock(actual->fork_l);
 		pthread_mutex_lock(actual->fork_r);
 	}
-	else
+	else if (status == 0)
 	{
 		pthread_mutex_unlock(actual->fork_r);
 		pthread_mutex_unlock(actual->fork_l);
@@ -86,6 +86,7 @@ long	ft_usleep(int flag, t_philo *actual, t_data *data)
 	struct timeval	ms;
 	long			x;
 	long			y;
+	long			z;
 
 	y = 0;
 	gettimeofday(&ms, NULL);
@@ -94,19 +95,21 @@ long	ft_usleep(int flag, t_philo *actual, t_data *data)
 	{
 		x -= actual->last_eat;
 		y = data->eat_t / 1000;
+		z = x;
 	}
 	else if (flag == -2)
 	{
+		z = x - actual->last_eat;
 		x -= actual->last_sleep;
 		y = data->sleep_t / 1000;
 	}
 	while (x < y)
 	{
-		if (x > data->die_t / 1000)
+		if (x > data->die_t / 1000 || z > data->die_t / 1000)
 		{
 			pthread_mutex_lock(&data->mut_die);
 			actual->data->die_all = 666;
-			printf("%ld %ld died  +++\n", x - data->start, actual->name);
+			printf("%ld %ld %ld died  +++\n", z, actual->name);
 			return (666);
 		}
 		gettimeofday(&ms, NULL);
@@ -115,9 +118,11 @@ long	ft_usleep(int flag, t_philo *actual, t_data *data)
 		{
 			x -= actual->last_eat;
 			y = data->eat_t / 1000;
+			z = x;
 		}
 		else if (flag == -2)
 		{
+			z = x - actual->last_eat;
 			x -= actual->last_sleep;
 			y = data->sleep_t / 1000;
 		}
