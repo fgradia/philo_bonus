@@ -35,9 +35,16 @@ long	ft_thinking(t_philo *actual)
 		// x -= actual->last_eat;
 		if (x - actual->last_eat > actual->data->die_t / 1000)
 		{
+			pthread_mutex_lock(&actual->data->mut_print);
+			if (actual->data->die_all == 666)
+			{
+				pthread_mutex_unlock(&actual->data->mut_print);
+				return (666);
+			}
 			// pthread_mutex_lock(&actual->data->mut_die);
 			actual->data->die_all = 666;
 			printf("%ld %ld died  0++\n", x - actual->data->start, actual->name);
+			pthread_mutex_unlock(&actual->data->mut_print);
 			return (666);
 		}
 
