@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 18:35:59 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/07 15:26:56 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ void	ft_create_philo(t_philo **philos, long *fork,
 		philos[x]->data = data;
 		if (pthread_create(philos[x]->phil, NULL,
 				ft_routine, (void *)philos[x]) != 0)
+		{
+			ft_free(fork, philos, mut_fork, data);
 			ft_exit("Error: a philo didn't seat\n", data);
+		}			
 		x++;
 	}
 }

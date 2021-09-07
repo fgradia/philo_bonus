@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 18:11:52 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/07 15:28:11 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	ft_free(long *fork, t_philo **philos,
 void	ft_exit(char *str, t_data *data)
 {
 	ft_write(2, str);
-	ft_write(2, "\n");
 	exit(0);
 	(void)data;
 }

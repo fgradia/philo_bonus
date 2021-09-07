@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 18:35:17 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/07 15:24:27 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	ft_start(t_data *data);
 
 /*	utils_basic.c	*/
 long	ft_strncmp(char *s1, char *s2, long len);
-long	ft_strlen(char *str);
 void	ft_write(long fd, char *str);
 long	ft_atoi(char *str);
 void	ft_write_num(long num);

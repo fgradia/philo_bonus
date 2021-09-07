@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 18:11:08 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/07 14:34:53 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int	main(int ac, char **av)
 		if (data.phils_n)
 			ft_start(&data);
 	}
+	else
+		ft_write(1, "invalid args!");
 	ft_exit("", &data);
 }
