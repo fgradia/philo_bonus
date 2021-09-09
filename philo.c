@@ -6,18 +6,11 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:18 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/09 10:26:28 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/09 10:43:03 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
-
-long	ft_prec_phil(long actual, long phils_n)
-{
-	if (actual - 1 >= 0)
-		return (actual - 1);
-	return (phils_n - 1);
-}
 
 long	ft_next_phil(long actual, long phils_n)
 {

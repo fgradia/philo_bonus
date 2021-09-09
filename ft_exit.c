@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/09 10:33:09 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/09 10:39:41 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_check_eat(t_data *data, t_philo **philos)
 		x++;
 	}
 	if (x == data->phils_n)
-		ft_write(1, "\033[0;36mhanno mangiato tutti\033[0m\n");
+		ft_write(1, "\033[0;36mphilos are full!\033[0m\n");
 }
 
 void	ft_free(long *fork, t_philo **philos,

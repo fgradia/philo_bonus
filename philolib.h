@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/09 10:11:00 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/09 10:38:04 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_philo
 }	t_philo;
 
 /*		philo.c		****	MAIN	****	*/
-long	ft_prec_phil(long actual, long phils_n);
 long	ft_next_phil(long actual, long phils_n);
 void	ft_init_array(long *array, long val, long phils_n);
 void	ft_init_data(char **av, t_data *data);
