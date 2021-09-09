@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 15:47:10 by fgradia           #+#    #+#             */
-/*   Updated: 2021/07/21 18:36:27 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/09 10:33:40 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ long	ft_timestamp(long flag, t_data *data, t_philo *act, char *str)
 	return (0);
 }
 
-void	ft_join_philo(t_philo **philos, t_data *data)
+void	ft_join_philo(t_philo **philos, long *fork,
+		pthread_mutex_t *mut_fork, t_data *data)
 {
 	long	x;
 
@@ -58,7 +59,10 @@ void	ft_join_philo(t_philo **philos, t_data *data)
 	while (x < data->phils_n)
 	{
 		if (pthread_join(*philos[x]->phil, NULL) != 0)
-			ft_write(1, "\tp_j:error\n");
+		{
+			ft_free(fork, philos, mut_fork, data);
+			ft_exit("Error: a philo didn't join\n", data);
+		}
 		x++;
 	}
 }
@@ -90,8 +94,7 @@ long	ft_usleep(int flag, t_philo *actual, t_data *data)
 	ft_flag_usleep(flag, x, actual);
 	while (x[0] < x[1])
 	{
-		if (flag != -1
-			&& (x[0] > data->die_t / 1000 || x[2] > data->die_t / 1000))
+		if (x[0] > data->die_t / 1000 || x[2] > data->die_t / 1000)
 		{
 			pthread_mutex_lock(&actual->data->mut_print);
 			return (ft_dead(x[2], actual, data));

@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:23 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/07 15:26:56 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/09 10:11:15 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	ft_start(t_data *data)
 	pthread_mutex_init(&data->mut_die, NULL);
 	pthread_mutex_init(&data->mut_print, NULL);
 	ft_create_philo(philos, fork, mut_fork, data);
-	ft_join_philo(philos, data);
+	ft_join_philo(philos, fork, mut_fork, data);
 	ft_check_eat(data, philos);
 	x = 0;
 	while (x < data->phils_n)

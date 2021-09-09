@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/07 15:24:27 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/09 10:11:00 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	ft_write_num(long num);
 /*	utils_start.c	*/
 int		ft_dead(long x, t_philo *actual, t_data *data);
 long	ft_timestamp(long flag, t_data *data, t_philo *actual, char *str);
-void	ft_join_philo(t_philo **philos, t_data *data);
+void	ft_join_philo(t_philo **philos, long *fork,
+			pthread_mutex_t *mut_fork, t_data *data);
 long	ft_usleep(int flag, t_philo *actual, t_data *data);
 
 #endif
