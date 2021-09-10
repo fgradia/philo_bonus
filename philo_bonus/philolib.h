@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:11 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/09 14:17:28 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/10 18:21:20 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <signal.h>
 
 typedef struct s_data
 {
@@ -29,22 +30,16 @@ typedef struct s_data
 	long			eat_n;
 	long			start;
 	long			die_all;
-	// pthread_mutex_t	mut_die;
-	// pthread_mutex_t	mut_print;
 }	t_data;
 
 typedef struct s_philo
 {
-	// pthread_t		*phil;
+	sem_t	*die_sem;
 	int				phid;
 	long			name;
 	long			eat_n;
 	long			last_eat;
 	long			last_sleep;
-	// long			*f_l_stat;
-	// pthread_mutex_t	*fork_l;
-	// long			*f_r_stat;
-	// pthread_mutex_t	*fork_r;
 	t_data			*data;
 }	t_philo;
 
@@ -56,7 +51,7 @@ void	ft_init_data(char **av, t_data *data);
 /*		ft_exit.c	*/
 void	ft_mut_fork(long status, t_philo	*actual);
 long	ft_thinking(t_philo *actual);
-void	ft_check_eat(t_data *data, t_philo **philos);
+void	ft_check_eat(t_data *data, t_philo *philos);
 void	ft_free(long *fork, t_philo **philos,
 			pthread_mutex_t *mut_fork, t_data *data);
 void	ft_exit(char *str, t_data *data);
