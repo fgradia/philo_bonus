@@ -6,44 +6,42 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 15:47:10 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/10 18:33:39 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/13 17:56:11 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philolib.h"
 
-// void	ft_kill(t_philo *philos, int x, t_data *data)
-// {
-// 	printf("%d ft_kill\n", x + 1);
-// 	int y;
+void	ft_alone(t_philo *actual)
+{
+	struct timeval	ms;
+	long			x;
 
-// 	y = 0;
-// 	while (y < data->phils_n)
-// 	{
-// 		if (y == x)
-// 			y++;
-// 		if (y != data->phils_n)
-// 			kill(philos[y].phid, 2);
-// 		y++;
-// 	}
-// }
+	ft_timestamp(0, actual->data, actual, " is thinking\n");
+	ft_timestamp(0, actual->data, actual, " has taken a fork\n");
+	gettimeofday(&ms, NULL);
+	x = ms.tv_sec % 1000 * 1000 + ms.tv_usec / 1000;
+	while (x)
+	{
+		gettimeofday(&ms, NULL);
+		x = ms.tv_sec % 1000 * 1000 + ms.tv_usec / 1000;
+		if (x - actual->last_eat > actual->data->die_t / 1000)
+		{
+			ft_dead(x - actual->data->start, actual, actual->data);
+			return ;
+		}
+	}
+}
 
 int	ft_dead(long x, t_philo *actual, t_data *data)
 {
-	printf("%ld ft_dead\n", actual->name);
 	sem_wait(actual->die_sem);
-	(void)data;
-	if (actual && actual->data->die_all == 666)
-	{
-		// pthread_mutex_unlock(&data->mut_print);
-		return (666);
-	}
 	printf("\033[0;31m%ld %ld died  +\033[0m\n", x, actual->name);
 	actual->data->die_all = 666;
-	// ft_kill(actual, actual->name - 1, actual->data);
-	// actual->eat_n = 0;
-	// pthread_mutex_unlock(&data->mut_print);
-	return (666);
+	sem_close(actual->die_sem);
+	sem_close(actual->semaphore);
+	free(data->tofree);
+	exit(1);
 }
 
 long	ft_timestamp(long flag, t_data *data, t_philo *act, char *str)
@@ -51,7 +49,6 @@ long	ft_timestamp(long flag, t_data *data, t_philo *act, char *str)
 	long			x;
 	struct timeval	ms;
 
-	// pthread_mutex_lock(&data->mut_print);
 	sem_wait(act->die_sem);
 	gettimeofday(&ms, NULL);
 	x = ms.tv_sec % 1000 * 1000 + ms.tv_usec / 1000;
@@ -71,29 +68,10 @@ long	ft_timestamp(long flag, t_data *data, t_philo *act, char *str)
 		act->last_eat = x;
 	else if (flag == -2)
 		act->last_sleep = x;
-	// pthread_mutex_unlock(&data->mut_print);
-	// printf("ft_timestmp\n");
 	if (act->data->die_all != 666)
 		sem_post(act->die_sem);
 	return (0);
 }
-
-// void	ft_join_philo(t_philo **philos, long *fork,
-// 		pthread_mutex_t *mut_fork, t_data *data)
-// {
-// 	long	x;
-
-// 	x = 0;
-// 	while (x < data->phils_n)
-// 	{
-// 		if (pthread_join(*philos[x]->phil, NULL) != 0)
-// 		{
-// 			ft_free(fork, philos, mut_fork, data);
-// 			ft_exit("Error: a philo didn't join\n", data);
-// 		}
-// 		x++;
-// 	}
-// }
 
 void	ft_flag_usleep(int flag, long *x, t_philo *actual)
 {
@@ -124,7 +102,6 @@ long	ft_usleep(int flag, t_philo *actual, t_data *data)
 	{
 		if (x[0] > data->die_t / 1000 || x[2] > data->die_t / 1000)
 		{
-			// pthread_mutex_lock(&actual->data->mut_print);
 			return (ft_dead(x[2], actual, data));
 		}
 		usleep(x[1] - x[0]);

@@ -1,5 +1,5 @@
 NAME	=	philo_bonus
-CFLAGS	=	-Wall -Wextra #-Werror
+CFLAGS	=	-Wall -Wextra -Werror
 OBJS	=	ft_exit.o \
 			ft_start.o \
 			philo.o \
@@ -22,4 +22,9 @@ fclean	:	clean
 
 re		:	fclean all
 
-PHONY	:	all clean fclean re
+unlink	:	unlink_sem.c
+	gcc $(CFLAGS) $^ -o $@
+	./$@
+	rm -rf unlink
+
+PHONY	:	all clean fclean re unlink
