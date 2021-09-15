@@ -6,7 +6,7 @@
 /*   By: fgradia <fgradia@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/13 19:14:33 by fgradia           #+#    #+#             */
-/*   Updated: 2021/09/13 17:57:06 by fgradia          ###   ########.fr       */
+/*   Updated: 2021/09/15 16:32:41 by fgradia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ long	ft_thinking222(t_philo *actual, sem_t *semaphore)
 	ft_timestamp(0, actual->data, actual, " has taken a fork\n");
 	while (sem_wait(semaphore))
 	{
-		ft_timestamp(0, actual->data, actual, " has taken a fork\n");
 		gettimeofday(&ms, NULL);
 		x = ms.tv_sec % 1000 * 1000 + ms.tv_usec / 1000;
 		if (x - actual->last_eat > actual->data->die_t / 1000)
@@ -55,6 +54,7 @@ long	ft_thinking222(t_philo *actual, sem_t *semaphore)
 			return (ft_dead(x - actual->data->start, actual, actual->data));
 		}
 	}
+	ft_timestamp(0, actual->data, actual, " has taken a fork\n");
 	return (0);
 }
 
